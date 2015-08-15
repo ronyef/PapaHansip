@@ -6,6 +6,24 @@
     <script type="text/javascript" src="/webiopi.js"></script>
     <script type="text/javascript">
         webiopi().ready(function() {
+            //fungsi setting jam
+            var hours = response.split(";");
+            //penggunaan jquery functions
+            $("#inputOn").val(hours[0]);
+            $("#inputOff").val(hours[1]);
+
+            webiopi().callMacro("getLightHours", [], updateLightHours);
+
+            //buat button untuk set light hours
+            var sendButton = webiopi().createButton("sendButton", "Send", function() {
+                var hours = [$("#inputOn").val(), $("#inputOff").val()];
+                //panggil macro
+                webiopi().callMacro("setLightHours", hours, updateLightHours);
+            });
+
+            //append button
+            $("#controls").append(sendButton);
+
             //buat button dengan label untuk GPIO17
             var button = webiopi().createGPIOButton(17, "Lampu");
 
@@ -38,6 +56,10 @@
     </style>
 </head>
 <body>
+    <div align="center">
+        Hidup pada :<input type="text" id="inputOn"/><br/>
+        Mati pada :<input type="text" id="inputOff"/><br/>
+    </div>
     <div id="controls" align="center"></div>
     <div id="streaming" align="center">
         <img width="320" height="240" src="http://192.168.1.4:8080/?action=stream"/>
