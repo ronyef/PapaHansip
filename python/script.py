@@ -10,6 +10,7 @@ LIGHT = 17  #GPIO menggunakan BCM number
 HOUR_ON = 8     # nyalakan di jam 08:00
 HOUR_OFF = 18   # matikan di jam 18:00
 
+
 # fungsi setup yang otomatis dipanggil oleh WebIOPi
 def setup():
     # set GPIO
@@ -21,6 +22,7 @@ def setup():
     # test apakah kita di ON time
     if (now.hour >= HOUR_ON) and (now.hour < HOUR_OFF):
         GPIO.digitalWrite(LIGHT, GPIO.HIGH)
+
 
 #fungsi loop
 def loop():
@@ -40,7 +42,9 @@ def loop():
     # loop delay
     webiopi.sleep(1)
 
+
 # destroy saat shutdown
+def destroy():
     GPIO.digitalWrite(LIGHT, GPIO.LOW)
 
 # Macros di bawah ini
