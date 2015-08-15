@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>RapiBot</title>
+    <script type="text/javascript" src="/webiopi.js"></script>
+    <script type="text/javascript">
+        webiopi().ready(function() {
+            //buat button dengan label untuk GPIO17
+            var button = webiopi().createGPIOButton(17, "Lampu");
+
+            //tambahkan button tersebut ke elemen "control"
+            $("#controls").append(button);
+
+            //refresh GPIO buttons
+            //berikan true untuk refresh berulang dan false untuk sekali saja
+            webiopi().refreshGPIO(true);
+        });
+    </script>
+    <style type="text/css">
+            button {
+                    display: block;
+                    margin: 5px 5px 5px 5px;
+                    width: 160px;
+                    height: 45px;
+                    font-size: 24pt;
+                    font-weight: bold;
+                    color: white;
+            }
+
+            #gpio17.LOW {
+                    background-color: Black;
+            }
+
+            #gpio17.HIGH {
+                    background-color: Blue;
+            }
+    </style>
+</head>
+<body>
+    <div id="controls" align="center"></div>
+</body>
+</html>
