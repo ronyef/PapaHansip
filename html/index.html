@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>RapiBot</title>
     <script type="text/javascript" src="/webiopi.js"></script>
+    <link href="css/bootstrap.min.css" rel="stylesheet"/>
     <script type="text/javascript">
         webiopi().ready(function() {
             //fungsi setting jam
@@ -13,7 +14,7 @@
                 $("#inputOn").val(hours[0]);
                 $("#inputOff").val(hours[1]);
             }
-            
+
             webiopi().callMacro("getLightHours", [], updateLightHours);
 
             //buat button untuk set light hours
@@ -37,6 +38,7 @@
             webiopi().refreshGPIO(true);
         });
     </script>
+    <!--
     <style type="text/css">
             button {
                     display: block;
@@ -56,8 +58,10 @@
                     background-color: Blue;
             }
     </style>
+    -->
 </head>
 <body>
+    <h1>Papa Hansip</h1>
     <div align="center">
         Hidup pada :<input type="text" id="inputOn"/><br/>
         Mati pada :<input type="text" id="inputOff"/><br/>
@@ -66,5 +70,7 @@
     <div id="streaming" align="center">
         <img width="320" height="240" src="http://192.168.1.4:8080/?action=stream"/>
     </div>
+
+    <script src="js/bootstrap.min.js"></script>
 </body>
 </html>
