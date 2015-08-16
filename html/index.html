@@ -7,11 +7,13 @@
     <script type="text/javascript">
         webiopi().ready(function() {
             //fungsi setting jam
-            var hours = response.split(";");
-            //penggunaan jquery functions
-            $("#inputOn").val(hours[0]);
-            $("#inputOff").val(hours[1]);
-
+            var updateLightHours = function(macro, args, response) {
+                var hours = response.split(";");
+                //penggunaan jquery functions
+                $("#inputOn").val(hours[0]);
+                $("#inputOff").val(hours[1]);
+            }
+            
             webiopi().callMacro("getLightHours", [], updateLightHours);
 
             //buat button untuk set light hours
