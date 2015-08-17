@@ -20,6 +20,7 @@
             //buat button untuk set light hours
             var sendButton = webiopi().createButton("sendButton", "Send", function() {
                 var hours = [$("#inputOn").val(), $("#inputOff").val()];
+                sendButton.addClass("btn btn-primary");
                 //panggil macro
                 webiopi().callMacro("setLightHours", hours, updateLightHours);
             });
@@ -68,6 +69,7 @@
                 font-weight: 300;
                 line-height: 1.4;
             }
+            /*
             button {
                     display: block;
                     margin: 5px 5px 5px 5px;
@@ -77,7 +79,7 @@
                     font-weight: bold;
                     color: white;
             }
-
+            */
             #gpio17.LOW {
                     background-color: Black;
             }
@@ -108,7 +110,7 @@
                         <h3 class="panel-title">Video Stream</h3>
                     </div>
                     <div class="panel-body">
-                        <img width="320" height="240" src="http://192.168.1.4:8080/?action=stream"/>
+                        <img width="320" height="240" src="http://192.168.1.6:8080/?action=stream"/>
                     </div>
                 </div>
             </div>
