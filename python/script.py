@@ -88,7 +88,7 @@ GPIO.setFunction(R2, GPIO.OUT)
 
 
 # Membuat Web Server
-server = webiopi.Server(port=8000, login="hansip", password="hansip")
+# server = webiopi.Server(port=8000, login="hansip", password="hansip")
 
 # Mendaftarkan Macro untuk dipanggil di JS
 server.addMacro(go_forward)
