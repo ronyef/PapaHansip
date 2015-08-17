@@ -20,13 +20,14 @@
             //buat button untuk set light hours
             var sendButton = webiopi().createButton("sendButton", "Send", function() {
                 var hours = [$("#inputOn").val(), $("#inputOff").val()];
-                sendButton.addClass("btn btn-primary");
+
                 //panggil macro
                 webiopi().callMacro("setLightHours", hours, updateLightHours);
             });
+            sendButton.addClass("btn btn-primary");
 
             //append button
-            $("#controls").append(sendButton);
+            $("#controls").append(sendButton, "<br/>");
 
             //buat button dengan label untuk GPIO17
             var button = webiopi().createGPIOButton(17, "Lampu");
