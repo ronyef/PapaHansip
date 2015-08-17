@@ -107,7 +107,7 @@ server.stop()
 # Atur ulang fungsi GPIO
 GPIO.setFunction(L1, GPIO.IN)
 GPIO.setFunction(L2, GPIO.IN)
-GPIO.setFunction(L3, GPIO.IN)
-GPIO.setFunction(L4, GPIO.IN)
+GPIO.setFunction(R1, GPIO.IN)
+GPIO.setFunction(R2, GPIO.IN)
 
 
