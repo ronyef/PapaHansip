@@ -30,7 +30,7 @@
 
             //buat button dengan label untuk GPIO17
             var button = webiopi().createGPIOButton(17, "Lampu");
-
+            button.addClass("btn btn-primary");
             //tambahkan button tersebut ke elemen "control"
             $("#controls").append(button);
 
