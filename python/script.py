@@ -5,57 +5,109 @@ import datetime
 
 GPIO = webiopi.GPIO
 
-LIGHT = 17  #GPIO menggunakan BCM number
+# Definisikan GPIO
 
-HOUR_ON = 8     # nyalakan di jam 08:00
-HOUR_OFF = 18   # matikan di jam 18:00
+# GPIO Motor Kiri
+L1 = 22
+L2 = 23
 
-
-# fungsi setup yang otomatis dipanggil oleh WebIOPi
-def setup():
-    # set GPIO
-    GPIO.setFunction(LIGHT, GPIO.OUT)
-
-    # ambil datetime
-    now = datetime.datetime.now()
-
-    # test apakah kita di ON time
-    if (now.hour >= HOUR_ON) and (now.hour < HOUR_OFF):
-        GPIO.digitalWrite(LIGHT, GPIO.HIGH)
+# GPIO Motor Kanan
+R1 = 24
+R2 = 25
 
 
-#fungsi loop
-def loop():
-    # ambil datetime
-    now = datetime.datetime.now()
+# Fungsi-fungsi Motor Kiri
 
-    # toggle light ON ketika waktu ON
-    if (now.hour == HOUR_ON and now.minute == 0) and (now.second == 0):
-        if GPIO.digitalRead(LIGHT) == GPIO.LOW:
-            GPIO.digitalWrite(LIGHT, GPIO.HIGH)
-
-    # toggle light OFF
-    if (now.hour == HOUR_OFF) and (now.minute == 0) and (now.second == 0):
-        if GPIO.digitalRead(LIGHT) == GPIO.HIGH:
-            GPIO.digitalWrite(LIGHT, GPIO.LOW)
-
-    # loop delay
-    webiopi.sleep(1)
+def left_stop():
+    GPIO.output(L1, GPIO.LOW)
+    GPIO.output(L2, GPIO.LOW)
 
 
-# destroy saat shutdown
-def destroy():
-    GPIO.digitalWrite(LIGHT, GPIO.LOW)
+def left_forward():
+    GPIO.output(L1, GPIO.HIGH)
+    GPIO.output(L2, GPIO.LOW)
 
-# Macros di bawah ini
-@webiopi.macro
-def getLightHours():
-    return "%d;%d" % (HOUR_ON, HOUR_OFF)
 
-@webiopi.macro
-def setLightHours(on, off):
-    global HOUR_ON, HOUR_OFF
-    HOUR_ON = int(on)
-    HOUR_OFF = int(off)
-    return getLightHours()
+def left_backward():
+    GPIO.output(L1, GPIO.LOW)
+    GPIO.output(L2, GPIO.HIGH)
+
+
+# Fungsi-fungsi Motor Kanan
+
+def right_stop():
+    GPIO.output(R1, GPIO.LOW)
+    GPIO.output(R1, GPIO.LOW)
+
+
+def right_forward():
+    GPIO.output(R1, GPIO.HIGH)
+    GPIO.output(R2, GPIO.LOW)
+
+
+def right_backward():
+    GPIO.output(R1, GPIO.LOW)
+    GPIO.output(R1, GPIO.HIGH)
+
+
+# Definisi macro untuk JavaScript
+
+def go_forward():
+    left_forward()
+    right_forward()
+
+
+def go_backward():
+    left_backward()
+    right_backward()
+
+
+def turn_left():
+    left_backward()
+    right_forward()
+
+
+def turn_right():
+    right_backward()
+    left_forward()
+
+
+def stop():
+    left_stop()
+    right_stop()
+
+
+# Inisialisasi
+
+# Setup GPIO
+
+GPIO.setFunction(L1, GPIO.OUT)
+GPIO.setFunction(L2, GPIO.OUT)
+GPIO.setFunction(R1, GPIO.OUT)
+GPIO.setFunction(R2, GPIO.OUT)
+
+
+# Membuat Web Server
+server = webiopi.Server(port=8000, login="hansip", password="hansip")
+
+# Mendaftarkan Macro untuk dipanggil di JS
+server.addMacro(go_forward)
+server.addMacro(go_backward)
+server.addMacro(turn_right)
+server.addMacro(turn_left)
+server.addMacro(stop)
+
+
+#Looping program Web Server
+webiopi.runLoop()
+
+# Mematikan program Web Server
+server.stop()
+
+# Atur ulang fungsi GPIO
+GPIO.setFunction(L1, GPIO.IN)
+GPIO.setFunction(L2, GPIO.IN)
+GPIO.setFunction(L3, GPIO.IN)
+GPIO.setFunction(L4, GPIO.IN)
+
 

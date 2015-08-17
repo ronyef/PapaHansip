@@ -6,39 +6,46 @@
     <script type="text/javascript" src="/webiopi.js"></script>
     <link href="css/bootstrap.min.css" rel="stylesheet"/>
     <script type="text/javascript">
-        webiopi().ready(function() {
-            //fungsi setting jam
-            var updateLightHours = function(macro, args, response) {
-                var hours = response.split(";");
-                //penggunaan jquery functions
-                $("#inputOn").val(hours[0]);
-                $("#inputOff").val(hours[1]);
-            }
+    function init() {
+        var button;
 
-            webiopi().callMacro("getLightHours", [], updateLightHours);
+        button = webiopi().createButton("button_up", "Forward", go_forward, stop);
+        $("#upper").append(button);
 
-            //buat button untuk set light hours
-            var sendButton = webiopi().createButton("sendButton", "Send", function() {
-                var hours = [$("#inputOn").val(), $("#inputOff").val()];
+        button = webiopi().createButton("button_left", "Left", turn_left, stop);
+        $("#middle").append(button);
 
-                //panggil macro
-                webiopi().callMacro("setLightHours", hours, updateLightHours);
-            });
-            sendButton.addClass("btn btn-primary");
+        button = webiopi().createButton("button_stop", "Stop", stop);
+        $("#middle").append(button);
 
-            //append button
-            $("#controls").append(sendButton, "<br/>");
+        button = webiopi().createButton("button_right", "Right", turn_right, stop);
+        $("#middle").append(button);
 
-            //buat button dengan label untuk GPIO17
-            var button = webiopi().createGPIOButton(17, "Lampu");
-            button.addClass("btn btn-primary");
-            //tambahkan button tersebut ke elemen "control"
-            $("#controls").append(button);
+        button = webiopi().createButton("button_down", "Reverse", go_backward, stop);
+        $("#lower").append(button);
+    }
 
-            //refresh GPIO buttons
-            //berikan true untuk refresh berulang dan false untuk sekali saja
-            webiopi().refreshGPIO(true);
-        });
+    function go_forward() {
+        webiopi().callMacro("go_forward");
+    }
+
+    function go_backward() {
+        webiopi().callMacro("go_backward");
+    }
+
+    function turn_right() {
+        webiopi().callMacro("turn_right");
+    }
+
+    function turn_left() {
+        webiopi().callMacto("turn_left");
+    }
+
+    function stop() {
+        webiopi().callMacro("stop");
+    }
+
+    webiopi().ready(init);
     </script>
 
     <style type="text/css">
@@ -121,14 +128,9 @@
                         <h3 class="panel-title">Remote Control</h3>
                     </div>
                     <div class="panel-body">
-                        <div align="center">
-                            Hidup pada :<input type="text" id="inputOn"/><br/>
-                            Mati pada :<input type="text" id="inputOff"/><br/>
-                        </div>
-                        <div id="controls">
-                            <button id="gpio17" class="btn btn-danger">Light 17</button>
-                            <button id="sendButton">Send</button>
-                        </div>
+                        <div id="upper"></div>
+                        <div id="middle"></div>
+                        <div id="lower"></div>
                     </div>
                 </div>
 
